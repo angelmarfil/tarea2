@@ -12,3 +12,9 @@ import ModalComponent from '@/components/ModalComponent.vue'
     <CardList></CardList>
   </main>
 </template>
+
+<style scoped>
+  main {
+    margin: 1rem;
+  }
+</style>

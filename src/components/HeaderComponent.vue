@@ -2,9 +2,6 @@
     <header>
         <nav>
             <RouterLink to="/">Inicio</RouterLink>
-            <RouterLink to="/">Juegos</RouterLink>
-            <RouterLink to="/">Nintendo Switch</RouterLink>
-            <RouterLink to="/">Noticias y eventos</RouterLink>
             <RouterLink to="/about">Acerca de</RouterLink>
         </nav>
     </header>
@@ -26,7 +23,9 @@
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: space-evenly;  
+            justify-content: flex-start;
+            column-gap: 3rem;
+            padding: 0 6rem;  
         }
 
         & a {

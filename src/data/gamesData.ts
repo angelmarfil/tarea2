@@ -1,6 +1,6 @@
 import type { IGame } from "@/interfaces/IGame";
 
-const gamesData: IGame = [
+const gamesData: IGame[] = [
     {
         id: 1,
         name: "EA SPORTS FC™ 24",
