@@ -8,7 +8,7 @@ import ModalComponent from '@/components/ModalComponent.vue'
 <template>
   <main>
     <ModalComponent></ModalComponent>
-    <button>Agregar</button>
+
     <CardList></CardList>
   </main>
 </template>
