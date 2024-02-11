@@ -2,24 +2,82 @@
   <button class="add" @click="showModal">Agregar Juego</button>
   <dialog ref="dialog">
     <h2>Agregar Juego</h2>
-    <form method="dialog">
-      <input type="url" placeholder="URL de imagen" required />
-      <input type="text" placeholder="Nombre" minlength="4" maxlength="60" required />
+    <form @submit.prevent="handleSubmit">
+      <input
+        @input="validation('image')"
+        v-model.trim="image"
+        type="url"
+        placeholder="URL de imagen"
+        name="image"
+        required
+      />
+      <span v-if="errors.image" class="error">{{ errors.image }}</span>
+
+      <input
+        @input="validation('name')"
+        v-model.trim="name"
+        type="text"
+        placeholder="Nombre"
+        name="name"
+        required
+      />
+      <span v-if="errors.name" class="error">{{ errors.name }}</span>
       <div>
-        <input type="number" placeholder="Precio" min="0" max="10000" required />
-        <input type="date" min="2017-03-03" required />
+        <div class="small">
+            <input
+          @input="validation('price')"
+          v-model="price"
+          type="number"
+          placeholder="Precio"
+          name="price"
+          required
+        />
+        <span v-if="errors.price" class="error">{{ errors.price }}</span>
+        </div>
+
+        <div class="small">
+            
+        <input
+          @input="validation('date')"
+          v-model="date"
+          type="date"
+          min="2017-03-03"
+          :max="maxDate"
+          name="date"
+          required
+        />
+        <span v-if="errors.date" class="error">{{ errors.date }}</span>
+        </div>
       </div>
       <div class="buttons">
         <button class="secondary" @click="closeModal">Cancelar</button>
-        <button>Agregar</button>
+        <button :disabled="!isFormValid" type="submit">Agregar</button>
       </div>
     </form>
   </dialog>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, nextTick, type Ref, onMounted } from 'vue'
 
 const dialog = ref<HTMLDialogElement>()
+
+const image: Ref<string> = ref('')
+const name: Ref<string> = ref('')
+const price: Ref = ref(null)
+const date: Ref<string> = ref('')
+
+const maxDate = ref<string>('')
+
+onMounted(() => {
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = (today.getMonth() + 1).toString().padStart(2, '0')
+  const day = today.getDate().toString().padStart(2, '0')
+  maxDate.value = `${year}-${month}-${day}`
+})
+
+const errors: Ref<Record<string, string>> = ref({})
+const isFormValid = ref(true)
 
 const showModal = () => {
   dialog.value?.showModal()
@@ -32,7 +90,45 @@ const closeModal = () => {
 defineExpose({
   show: showModal
 })
+
+const validation = (field: string) => {
+  errors.value = { ...errors.value, [field]: '' }
+
+  switch (field) {
+    case 'image':
+      if (!URL.canParse(image.value)) {
+        errors.value[field] = 'La URL debe ser válida'
+      }
+      break
+    case 'name':
+      if (name.value.length < 4 || name.value.length > 60) {
+        errors.value[field] = 'Error de longitud en el nombre (mínimo 4, máximo 60 caracteres).'
+      }
+      break
+    case 'price':
+      if (price.value < 0 || price.value > 10000) {
+        errors.value[field] = 'El precio debe ser entre 0 y 10000'
+      }
+      break
+  }
+
+  validateForm()
+}
+
+const validateForm = () => {
+  nextTick(() => {
+    isFormValid.value = Object.values(errors.value).every((error) => error === '')
+  })
+}
+
+const handleSubmit = () => {
+  if (isFormValid.value) {
+    console.log('Formulario válido. Enviar datos...')
+    alert('Formulario válido.')
+  }
+}
 </script>
+
 <style scoped>
 dialog {
   margin: auto;
@@ -51,7 +147,7 @@ dialog {
 }
 
 .add {
-    margin: auto 2rem;
+  margin: auto 2rem;
 }
 
 form {
@@ -83,6 +179,12 @@ button {
   &.secondary {
     background-color: grey;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
+    color: #666;
+  }
 }
 
 input {
@@ -100,4 +202,19 @@ input[type='number'] {
 input[type='date'] {
   width: 160px;
 }
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  display: block;
+}
+
+.small {
+    display: flex;
+    flex-direction: column;
+    & span {
+        width: 140px;
+    }
+}
+
 </style>
