@@ -1,8 +1,8 @@
 <template>
   <div class="card">
-    <img :src="props.image" />
+    <img :src="game.image" />
     <div class="text">
-      <h3>{{ props.name }}</h3>
+      <h3>{{ game.name }}</h3>
       <span class="date">{{ release_date }}</span>
       <span class="price">{{ price }}</span>
       <span class="console">Nintendo Switch</span>
@@ -12,11 +12,11 @@
 <script setup lang="ts">
 import type { IGame } from '@/interfaces/IGame'
 import { computed } from 'vue'
-const props = defineProps<IGame>()
+const props = defineProps<{game: IGame}>()
 
-const release_date = computed(() => props.release_date.toLocaleDateString('en-GB'))
+const release_date = computed(() => props.game.release_date.toLocaleDateString('en-GB'))
 
-const price = computed(() => `$${props.price}`)
+const price = computed(() => `$${props.game.price}`)
 </script>
 <style scoped>
 .card {

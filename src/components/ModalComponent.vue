@@ -57,6 +57,8 @@
   </dialog>
 </template>
 <script setup lang="ts">
+import gamesData from '@/data/gamesData';
+import type { IGame } from '@/interfaces/IGame';
 import { ref, nextTick, type Ref, onMounted } from 'vue'
 
 const dialog = ref<HTMLDialogElement>()
@@ -123,10 +125,30 @@ const validateForm = () => {
 
 const handleSubmit = () => {
   if (isFormValid.value) {
-    console.log('Formulario válido. Enviar datos...')
-    alert('Formulario válido.')
+    const newGame: IGame = {
+        id: gamesData.length + 1,
+        name: name.value,
+        image: image.value,
+        price: price.value,
+        release_date: new Date(date.value)
+    }
+
+    gamesData.push(newGame)
+    closeModal()
+    alert("El juego ha sido agregado a la lista.")
+    resetForm()
   }
 }
+
+const resetForm = () => {
+  image.value = ''
+  name.value = ''
+  price.value = null
+  date.value = ''
+  errors.value = {}
+  isFormValid.value = true
+}
+
 </script>
 
 <style scoped>
