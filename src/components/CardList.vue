@@ -15,7 +15,8 @@ const games = ref(gamesData)
 <style scoped>
 ul {
   margin: 2rem 2rem;
-  display: flex;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  row-gap: 2rem;
 }
 </style>

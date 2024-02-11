@@ -62,6 +62,8 @@ import type { IGame } from '@/interfaces/IGame';
 import { ref, nextTick, type Ref, onMounted } from 'vue'
 
 const dialog = ref<HTMLDialogElement>()
+const games = ref(gamesData)
+
 
 const image: Ref<string> = ref('')
 const name: Ref<string> = ref('')
@@ -133,7 +135,7 @@ const handleSubmit = () => {
         release_date: new Date(date.value)
     }
 
-    gamesData.push(newGame)
+    games.value.push(newGame)
     closeModal()
     alert("El juego ha sido agregado a la lista.")
     resetForm()

@@ -20,8 +20,9 @@ const price = computed(() => `$${props.game.price}`)
 </script>
 <style scoped>
 .card {
-  width: 300px;
-  height: 400px;
+  --width: 250px;
+  width: var(--width);
+  height: 380px;
   overflow: hidden;
   border-radius: 20px;
   box-shadow:
@@ -29,7 +30,7 @@ const price = computed(() => `$${props.game.price}`)
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   & img {
-    width: 300px;
+    width: var(--width);
     height: 180px;
     object-fit: cover;
   }
