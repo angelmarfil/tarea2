@@ -4,4 +4,5 @@ export interface IGame {
     image: string;
     price: number;
     release_date: Date;
+    theme: string;
 }

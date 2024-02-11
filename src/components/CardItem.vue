@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="game.theme">
     <img :src="game.image" />
     <div class="text">
       <h3>{{ game.name }}</h3>
@@ -21,6 +21,11 @@ const price = computed(() => `$${props.game.price}`)
 <style scoped>
 .card {
   --width: 250px;
+  --background: white;
+  --name: black;
+  --price: rgb(72, 72, 72);
+  --date: gray;
+  --console: red;
   width: var(--width);
   height: 380px;
   overflow: hidden;
@@ -28,6 +33,77 @@ const price = computed(() => `$${props.game.price}`)
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+   &.blue {
+    background-color: lightblue;
+   } 
+
+   &.black {
+    --background: black;
+    --name: white;
+    --date: white;
+    --price: white;
+    --console: white;
+    background-color: var(--background);
+    color: var(--name);
+    & .date {
+      color: var(--date);
+    }
+
+    & .price {
+      color: var(--price);
+    }
+
+    & .console {
+      color: var(--console);
+    }
+
+   }
+
+   &.blue {
+    --background: lightblue;
+    --name: black;
+    --date: black;
+    --price: black;
+    --console: black;
+    background-color: var(--background);
+    color: var(--name);
+    & .date {
+      color: var(--date);
+    }
+
+    & .price {
+      color: var(--price);
+    }
+
+    & .console {
+      color: var(--console);
+    }
+
+   }
+
+   &.purple {
+    --background: purple;
+    --name: white;
+    --date: white;
+    --price: yellow;
+    --console: yellow;
+    background-color: var(--background);
+    color: var(--name);
+    & .date {
+      color: var(--date);
+    }
+
+    & .price {
+      color: var(--price);
+    }
+
+    & .console {
+      color: var(--console);
+    }
+
+   }
+
 
   & img {
     width: var(--width);
@@ -48,20 +124,21 @@ const price = computed(() => `$${props.game.price}`)
     text-wrap: nowrap;
     width: 95%;
     overflow: hidden;
+    color: var(--name);
 }
 
   & .date {
     font-size: 0.8rem;
-    color: gray;
+    color: var(--date);
   }
 
   & .price {
-    color: rgb(72, 72, 72);
+    color: var(--price);
     font-weight: 600;
   }
 
   & .console {
-    border-left: 4px red solid;
+    border-left: 4px var(--console) solid;
     padding-left: .5rem;
   }
 }

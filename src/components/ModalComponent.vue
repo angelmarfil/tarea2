@@ -24,29 +24,36 @@
       <span v-if="errors.name" class="error">{{ errors.name }}</span>
       <div>
         <div class="small">
-            <input
-          @input="validation('price')"
-          v-model="price"
-          type="number"
-          placeholder="Precio"
-          name="price"
-          required
-        />
-        <span v-if="errors.price" class="error">{{ errors.price }}</span>
+          <input
+            @input="validation('price')"
+            v-model="price"
+            type="number"
+            placeholder="Precio"
+            name="price"
+            required
+          />
+          <span v-if="errors.price" class="error">{{ errors.price }}</span>
         </div>
 
         <div class="small">
-            
-        <input
-          @input="validation('date')"
-          v-model="date"
-          type="date"
-          min="2017-03-03"
-          :max="maxDate"
-          name="date"
-          required
-        />
-        <span v-if="errors.date" class="error">{{ errors.date }}</span>
+          <input
+            @input="validation('date')"
+            v-model="date"
+            type="date"
+            min="2017-03-03"
+            :max="maxDate"
+            name="date"
+            required
+          />
+          <span v-if="errors.date" class="error">{{ errors.date }}</span>
+        </div>
+        <div class="small">
+          <select v-model="theme" name="theme">
+            <option value="default" selected>Tema por defecto</option>
+            <option value="black">Negro</option>
+            <option value="blue">Azul</option>
+            <option value="purple">Morado</option>
+          </select>
         </div>
       </div>
       <div class="buttons">
@@ -57,18 +64,18 @@
   </dialog>
 </template>
 <script setup lang="ts">
-import gamesData from '@/data/gamesData';
-import type { IGame } from '@/interfaces/IGame';
+import gamesData from '@/data/gamesData'
+import type { IGame } from '@/interfaces/IGame'
 import { ref, nextTick, type Ref, onMounted } from 'vue'
 
 const dialog = ref<HTMLDialogElement>()
 const games = ref(gamesData)
 
-
 const image: Ref<string> = ref('')
 const name: Ref<string> = ref('')
 const price: Ref = ref(null)
 const date: Ref<string> = ref('')
+const theme: Ref<string> = ref('')
 
 const maxDate = ref<string>('')
 
@@ -128,16 +135,17 @@ const validateForm = () => {
 const handleSubmit = () => {
   if (isFormValid.value) {
     const newGame: IGame = {
-        id: gamesData.length + 1,
-        name: name.value,
-        image: image.value,
-        price: price.value,
-        release_date: new Date(date.value)
+      id: gamesData.length + 1,
+      name: name.value,
+      image: image.value,
+      price: price.value,
+      theme: theme.value,
+      release_date: new Date(date.value)
     }
 
     games.value.push(newGame)
     closeModal()
-    alert("El juego ha sido agregado a la lista.")
+    alert('El juego ha sido agregado a la lista.')
     resetForm()
   }
 }
@@ -146,11 +154,11 @@ const resetForm = () => {
   image.value = ''
   name.value = ''
   price.value = null
-  date.value = ''
+  date.value = '',
+  theme.value = '',
   errors.value = {}
   isFormValid.value = true
 }
-
 </script>
 
 <style scoped>
@@ -168,6 +176,17 @@ dialog {
   &::backdrop {
     backdrop-filter: blur(4px);
   }
+
+  @media(width < 1260px){
+    & {
+        width: 70vw;
+    }
+
+    select {
+        width: 200px;
+    }
+  }
+
 }
 
 .add {
@@ -211,6 +230,15 @@ button {
   }
 }
 
+select {
+    position: relative;
+    padding: 10px 20px;
+    width: 300px;
+    font-family: 'Poppins';
+    border-radius: 8px;
+    border: 1px solid grey;
+}
+
 input {
   font-family: 'Poppins';
   appearance: none;
@@ -234,11 +262,10 @@ input[type='date'] {
 }
 
 .small {
-    display: flex;
-    flex-direction: column;
-    & span {
-        width: 140px;
-    }
+  display: flex;
+  flex-direction: column;
+  & span {
+    width: 140px;
+  }
 }
-
 </style>
