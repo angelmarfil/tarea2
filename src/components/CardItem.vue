@@ -104,6 +104,27 @@ const price = computed(() => `$${props.game.price}`)
 
    }
 
+   &.red {
+    --background: darkred;
+    --name: white;
+    --date: white;
+    --price: white;
+    --console: white;
+    background-color: var(--background);
+    color: var(--name);
+    & .date {
+      color: var(--date);
+    }
+
+    & .price {
+      color: var(--price);
+    }
+
+    & .console {
+      color: var(--console);
+    }
+
+   }
 
   & img {
     width: var(--width);

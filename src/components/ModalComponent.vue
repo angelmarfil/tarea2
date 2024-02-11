@@ -53,6 +53,7 @@
             <option value="black">Negro</option>
             <option value="blue">Azul</option>
             <option value="purple">Morado</option>
+            <option value="red">Rojo</option>
           </select>
         </div>
       </div>
@@ -75,7 +76,7 @@ const image: Ref<string> = ref('')
 const name: Ref<string> = ref('')
 const price: Ref = ref(null)
 const date: Ref<string> = ref('')
-const theme: Ref<string> = ref('')
+const theme: Ref<string> = ref('default')
 
 const maxDate = ref<string>('')
 
@@ -108,17 +109,20 @@ const validation = (field: string) => {
   switch (field) {
     case 'image':
       if (!URL.canParse(image.value)) {
-        errors.value[field] = 'La URL debe ser válida'
+        errors.value[field] = 'La URL debe ser válida.'
       }
       break
     case 'name':
       if (name.value.length < 4 || name.value.length > 60) {
         errors.value[field] = 'Error de longitud en el nombre (mínimo 4, máximo 60 caracteres).'
       }
+      else if(isNameDuplicate(name.value)){
+        errors.value[field] = 'Este nombre ya existe en la lista.'
+      }
       break
     case 'price':
       if (price.value < 0 || price.value > 10000) {
-        errors.value[field] = 'El precio debe ser entre 0 y 10000'
+        errors.value[field] = 'El precio debe ser entre 0 y 10000.'
       }
       break
   }
@@ -159,6 +163,11 @@ const resetForm = () => {
   errors.value = {}
   isFormValid.value = true
 }
+
+const isNameDuplicate = (value: string): boolean => {
+  return games.value.some((game: IGame) => game.name.toLowerCase() === value.toLowerCase())
+}
+
 </script>
 
 <style scoped>

@@ -15,7 +15,7 @@ const gamesData: IGame[] = [
         image: "https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_801/b_white/f_auto/q_auto/ncom/software/switch/70010000000964/811461b8d1cacf1f2da791b478dccfe2a55457780364c3d5a95fbfcdd4c3086f",
         price: 499,
         release_date: new Date(2018, 6, 20),
-        theme: "blue"
+        theme: "red"
     },
     {
         id: 3,
